@@ -1,0 +1,26 @@
+# Optional: set repository secret DISCORD_WEBHOOK_URL (Discord channel webhook).
+# Posts when someone pushes to main (Vercel auto-deploys if the project is linked).
+name: Notify Discord
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  discord:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post summary to Discord
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+        run: |
+          if [ -z "$WEBHOOK" ]; then
+            echo "DISCORD_WEBHOOK_URL not set — skipping Discord notification."
+            exit 0
+          fi
+          MSG=$(printf '%s' "Push to main: ${REPO} @ ${SHA} (Vercel deploy if linked).")
+          curl -sS -X POST "$WEBHOOK" \
+            -H 'Content-Type: application/json' \
+            -d "$(printf '{"content":"%s"}' "$MSG")"

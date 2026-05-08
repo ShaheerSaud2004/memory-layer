@@ -28,6 +28,20 @@ async def lifespan(app: FastAPI):
 
 settings = get_settings()
 
+
+def _cors_origin_regex() -> str | None:
+    parts: list[str] = []
+    if settings.cors_allow_localhost_any_port:
+        parts.append(r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$")
+    if settings.cors_include_vercel_app_host:
+        parts.append(r"^https://[^/]+\.vercel\.app$")
+    if not parts:
+        return None
+    if len(parts) == 1:
+        return parts[0]
+    return "(?:" + ")|(?:".join(parts) + ")"
+
+
 app = FastAPI(title="AI Memory Layer API", version="0.1.0", lifespan=lifespan)
 
 _cors_kw: dict = {
@@ -36,8 +50,9 @@ _cors_kw: dict = {
     "allow_methods": ["*"],
     "allow_headers": ["*"],
 }
-if settings.cors_allow_localhost_any_port:
-    _cors_kw["allow_origin_regex"] = r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$"
+_cors_rx = _cors_origin_regex()
+if _cors_rx:
+    _cors_kw["allow_origin_regex"] = _cors_rx
 app.add_middleware(CORSMiddleware, **_cors_kw)
 
 app.include_router(api_router)

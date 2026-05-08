@@ -1,0 +1,28 @@
+# fly.toml — deploy the FastAPI API from the repository root.
+# Prerequisites: flyctl auth, Postgres + Redis (e.g. Fly Postgres, Upstash) with DATABASE_URL + REDIS_URL.
+#
+#   fly launch --no-deploy --name memory-layer-api --region iad
+#   fly secrets set DATABASE_URL="postgresql+psycopg://..." REDIS_URL="redis://..." JWT_SECRET="..." MASTER_KEY="..." \
+#     CORS_ORIGINS="https://your-app.vercel.app" CORS_INCLUDE_VERCEL_APP_HOST=true
+#   fly deploy
+#
+# Then set Vercel NEXT_PUBLIC_API_URL to https://<this-app>.fly.dev
+
+app = "memory-layer-api"
+primary_region = "iad"
+
+[build]
+  dockerfile = "docker/Dockerfile.api"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1

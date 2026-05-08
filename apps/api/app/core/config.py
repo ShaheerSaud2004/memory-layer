@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     api_public_url: str = "http://localhost:8000"
     cors_origins: str = "http://localhost:3000"
     cors_allow_localhost_any_port: bool = True
+    cors_include_vercel_app_host: bool = False
     master_key: str = "dev-master-key-must-be-32-chars!!"
 
     openai_api_key: str | None = None

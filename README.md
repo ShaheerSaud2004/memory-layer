@@ -53,7 +53,7 @@ NEXT_PUBLIC_API_URL=http://localhost:8000 npm run dev
 
 Open `/billing` (while signed in) to start Stripe Checkout. Configure `STRIPE_SECRET_KEY`, `STRIPE_PRICE_PRO` (a recurring Price id), and `STRIPE_WEBHOOK_SECRET` on the API; point the Stripe webhook to `https://<your-api-host>/v1/billing/webhook`. JWT login is unchanged.
 
-**Vercel:** create a project with **Root Directory** `apps/web`, set `NEXT_PUBLIC_API_URL` to your public API base URL (host the FastAPI app on a VM, Railway, Fly.io, etc.—not inside this Next app). The API must allow your Vercel origin in `CORS_ORIGINS`.
+**Deploy (Vercel + hosted API):** [docs/integrations.md](docs/integrations.md) — set Vercel **Root Directory** to `apps/web`, add **`NEXT_PUBLIC_API_URL`** (public HTTPS base of your FastAPI deployment), Clerk keys, redeploy after changing `NEXT_PUBLIC_*`. On the API host, add your `https://*.vercel.app` origins to **`CORS_ORIGINS`**. After deploy, open **`/status`** on the site to confirm **`/healthz`** is reachable from Vercel.
 
 ## Tests
 

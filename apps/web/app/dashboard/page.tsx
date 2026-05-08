@@ -28,6 +28,7 @@ export default function DashboardPage() {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [err, setErr] = useState<string | null>(null);
+  const [memoriesLoaded, setMemoriesLoaded] = useState(false);
 
   useEffect(() => {
     if (!token) return;
@@ -37,9 +38,11 @@ export default function DashboardPage() {
       });
       if (!res.ok) {
         setErr(await res.text());
+        setMemoriesLoaded(true);
         return;
       }
       setMemories(await res.json());
+      setMemoriesLoaded(true);
     })();
   }, [token]);
 
@@ -127,6 +130,7 @@ export default function DashboardPage() {
           <div className="muted">Hybrid retrieval (FTS + vector) with tenant isolation + RLS.</div>
         </div>
         <div className="row" style={{ gap: 16 }}>
+          <Link href="/status">Status</Link>
           <Link href="/billing">Billing</Link>
           <Link href="/login">Account</Link>
         </div>
@@ -134,6 +138,31 @@ export default function DashboardPage() {
 
       {err ? (
         <pre style={{ color: "#ffb4b4", whiteSpace: "pre-wrap" }}>{err}</pre>
+      ) : null}
+
+      {memoriesLoaded && memories.length === 0 && !err ? (
+        <div
+          className="card"
+          style={{
+            marginTop: 18,
+            border: "1px solid #2a4a6e",
+            background: "linear-gradient(135deg, #101820 0%, #141c2c 100%)",
+          }}
+        >
+          <h3 style={{ marginTop: 0 }}>Start your memory layer</h3>
+          <ol className="muted" style={{ lineHeight: 1.75, marginBottom: 12, paddingLeft: 20 }}>
+            <li>
+              Confirm the API is up: open <Link href="/status">/status</Link> (on Vercel set{" "}
+              <code>NEXT_PUBLIC_API_URL</code> → your hosted FastAPI).
+            </li>
+            <li>
+              Save a first memory below — it becomes searchable with hybrid FTS + vectors.
+            </li>
+            <li>
+              Try search with natural language; use <Link href="/billing">Billing</Link> for Pro (agents + optimizer).
+            </li>
+          </ol>
+        </div>
       ) : null}
 
       <div className="grid2" style={{ marginTop: 18 }}>

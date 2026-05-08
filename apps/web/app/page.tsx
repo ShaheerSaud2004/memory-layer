@@ -205,6 +205,8 @@ Authorization: Bearer …
             <Link href="/login">Console</Link>
             &nbsp;·&nbsp;
             <Link href="/dashboard">Dashboard</Link>
+            &nbsp;·&nbsp;
+            <Link href="/status">Deploy status</Link>
           </span>
         </footer>
       </div>

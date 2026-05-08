@@ -91,6 +91,8 @@ export default function LoginPage() {
             <Link href="/sign-in">Clerk sign in</Link>
             {" · "}
             <Link href="/sign-up">Clerk sign up</Link>
+            {" · "}
+            <Link href="/status">API status</Link>
           </p>
         </div>
       </div>

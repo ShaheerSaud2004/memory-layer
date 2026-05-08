@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { ClerkProvider } from "@clerk/nextjs";
 import { DM_Sans, Newsreader } from "next/font/google";
+import { ClerkAppProvider } from "./providers";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -23,10 +23,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider>
-      <html lang="en" className={`${dmSans.variable} ${newsreader.variable}`}>
-        <body>{children}</body>
-      </html>
-    </ClerkProvider>
+    <html lang="en" className={`${dmSans.variable} ${newsreader.variable}`}>
+      <body>
+        <ClerkAppProvider>{children}</ClerkAppProvider>
+      </body>
+    </html>
   );
 }
