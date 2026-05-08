@@ -1,6 +1,25 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-export default clerkMiddleware();
+/**
+ * Console auth is API JWT in localStorage; Clerk is optional for /sign-in.
+ * Keep these routes public so marketing + JWT login are not redirected to Clerk.
+ */
+const isPublicRoute = createRouteMatcher([
+  "/",
+  "/login(.*)",
+  "/status(.*)",
+  "/dashboard(.*)",
+  "/billing(.*)",
+  "/sign-in(.*)",
+  "/sign-up(.*)",
+  "/api/health-proxy(.*)",
+]);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (!isPublicRoute(req)) {
+    await auth.protect();
+  }
+});
 
 export const config = {
   matcher: [
