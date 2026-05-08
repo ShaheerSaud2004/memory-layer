@@ -1,0 +1,45 @@
+# Dependencies & build output
+node_modules
+.next
+.turbo
+dist
+build
+out
+
+# Python
+*.pyc
+__pycache__
+.venv
+venv
+*.egg-info
+.pytest_cache
+.coverage
+htmlcov
+.ruff_cache
+.mypy_cache
+
+# Secrets & local env (never commit)
+.env
+.env.*
+!.env.example
+.envrc
+
+# App-local overrides (Next, tooling)
+apps/web/.env.local
+apps/web/.env*.local
+
+# Uploads / local data
+uploads
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+*.swo

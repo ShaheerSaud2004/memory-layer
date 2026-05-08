@@ -1,0 +1,15 @@
+{
+  "name": "@ai-memory/sdk",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "generate": "echo 'OpenAPI codegen: run openapi-typescript against a running API (/openapi.json)'"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

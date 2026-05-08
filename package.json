@@ -1,0 +1,15 @@
+{
+  "name": "ai-memory-layer",
+  "private": true,
+  "packageManager": "npm@10.8.2",
+  "workspaces": ["apps/web", "packages/sdk"],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "sdk:generate": "npm run generate -w @ai-memory/sdk"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3"
+  }
+}
